@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import userRoutes from './user.routes';
+import shoppingListRoutes from './shopping-list.routes';
 
 const router = Router();
 
 // Registrar todas as rotas
 router.use('/users', userRoutes);
+router.use('/shopping-lists', shoppingListRoutes);
 
 // Rota de informações da API
 router.get('/', (req, res) => {
@@ -23,6 +25,19 @@ router.get('/', (req, res) => {
         updateUser: 'PUT /api/users/:id (admin)',
         deleteUser: 'DELETE /api/users/:id (admin)',
         promoteToAdmin: 'POST /api/users/:id/promote'
+      },
+      shoppingLists: {
+        create: 'POST /api/shopping-lists',
+        getUserLists: 'GET /api/shopping-lists',
+        getById: 'GET /api/shopping-lists/:id',
+        update: 'PUT /api/shopping-lists/:id',
+        delete: 'DELETE /api/shopping-lists/:id',
+        addItem: 'POST /api/shopping-lists/:id/items',
+        updateItem: 'PUT /api/shopping-lists/items/:itemId',
+        removeItem: 'DELETE /api/shopping-lists/items/:itemId',
+        toggleItem: 'PATCH /api/shopping-lists/items/:itemId/toggle',
+        duplicate: 'POST /api/shopping-lists/:id/duplicate',
+        getAllLists: 'GET /api/shopping-lists/admin/all (admin)'
       }
     }
   });
