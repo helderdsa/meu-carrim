@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  shoppingLists ShoppingList[]
+
+  @@map("users")
+}
+
+model ShoppingList {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  items ShoppingListItem[]
+
+  @@map("shopping_lists")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  image       String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  shoppingListItems ShoppingListItem[]
+  priceHistory      PriceHistory[]
+
+  @@map("products")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  color       String?
+  icon        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  products Product[]
+
+  @@map("categories")
+}
+
+model ShoppingListItem {
+  id         String  @id @default(cuid())
+  quantity   Int     @default(1)
+  isPurchased Boolean @default(false)
+  notes      String?
+  estimatedPrice Decimal? @db.Decimal(10, 2)
+
+  // Relacionamentos
+  shoppingListId String
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@unique([shoppingListId, productId])
+  @@map("shopping_list_items")
+}
+
+model Market {
+  id          String   @id @default(cuid())
+  name        String
+  address     String?
+  city        String?
+  state       String?
+  zipCode     String?
+  latitude    Float?
+  longitude   Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  priceHistory PriceHistory[]
+
+  @@map("markets")
+}
+
+model PriceHistory {
+  id           String   @id @default(cuid())
+  price        Decimal  @db.Decimal(10, 2)
+  purchaseDate DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  // Relacionamentos
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  marketId String
+  market   Market @relation(fields: [marketId], references: [id])
+
+  @@map("price_history")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
