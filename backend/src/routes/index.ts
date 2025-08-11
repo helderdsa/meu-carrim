@@ -3,6 +3,8 @@ import userRoutes from './user.routes';
 import shoppingListRoutes from './shopping-list.routes';
 import productRoutes from './product.routes';
 import categoryRoutes from './category.routes';
+import marketRoutes from './market.routes';
+import priceHistoryRoutes from './price-history.routes';
 
 const router = Router();
 
@@ -11,6 +13,8 @@ router.use('/users', userRoutes);
 router.use('/shopping-lists', shoppingListRoutes);
 router.use('/products', productRoutes);
 router.use('/categories', categoryRoutes);
+router.use('/markets', marketRoutes);
+router.use('/price-history', priceHistoryRoutes);
 
 // Rota de informações da API
 router.get('/', (req, res) => {
@@ -62,6 +66,19 @@ router.get('/', (req, res) => {
         update: 'PUT /api/categories/:id (admin)',
         delete: 'DELETE /api/categories/:id (admin)',
         forceDelete: 'DELETE /api/categories/:id/force (admin)'
+      },
+      markets: {
+        getAll: 'GET /api/markets',
+        getById: 'GET /api/markets/:id',
+        getPopular: 'GET /api/markets/popular',
+        getCities: 'GET /api/markets/cities',
+        getStates: 'GET /api/markets/states',
+        getNearby: 'GET /api/markets/nearby',
+        getByCity: 'GET /api/markets/city/:city',
+        create: 'POST /api/markets',
+        update: 'PUT /api/markets/:id',
+        delete: 'DELETE /api/markets/:id (admin)',
+        forceDelete: 'DELETE /api/markets/:id/force (admin)'
       }
     }
   });
