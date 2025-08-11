@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 export class AuthUtils {
@@ -8,11 +8,11 @@ export class AuthUtils {
       throw new Error('JWT_SECRET não está definido');
     }
 
-    return jwt.sign(
-      { userId },
-      secret,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-    );
+    const options: SignOptions = {
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d'
+    } as SignOptions;
+
+    return jwt.sign({ userId }, secret, options);
   }
 
   static verifyToken(token: string): { userId: string } {
