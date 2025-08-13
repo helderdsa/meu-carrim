@@ -63,6 +63,7 @@ export default function RegisterPage() {
               </label>
               <input
                 {...register('name')}
+                id="name"
                 type="text"
                 autoComplete="name"
                 className="mt-1 input-field"
@@ -80,6 +81,7 @@ export default function RegisterPage() {
               </label>
               <input
                 {...register('email')}
+                id="email"
                 type="email"
                 autoComplete="email"
                 className="mt-1 input-field"
@@ -98,6 +100,7 @@ export default function RegisterPage() {
               <div className="mt-1 relative">
                 <input
                   {...register('password')}
+                  id="password"
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   className="input-field pr-10"
@@ -128,6 +131,7 @@ export default function RegisterPage() {
               <div className="mt-1 relative">
                 <input
                   {...register('confirmPassword')}
+                  id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   className="input-field pr-10"

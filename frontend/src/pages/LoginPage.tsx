@@ -62,6 +62,7 @@ export default function LoginPage() {
               </label>
               <input
                 {...register('email')}
+                id="email"
                 type="email"
                 autoComplete="email"
                 className="mt-1 input-field"
@@ -80,6 +81,7 @@ export default function LoginPage() {
               <div className="mt-1 relative">
                 <input
                   {...register('password')}
+                  id="password"
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   className="input-field pr-10"
