@@ -548,7 +548,10 @@ async function main() {
 main()
   .catch((e) => {
     console.error('❌ Erro durante o seed:', e);
-    process.exit(1);
+    if (typeof window === 'undefined') {
+      // Node.js environment
+      (globalThis as any).process?.exit(1);
+    }
   })
   .finally(async () => {
     await prisma.$disconnect();
